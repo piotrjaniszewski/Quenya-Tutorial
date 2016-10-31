@@ -1,6 +1,6 @@
 package pl.piotrjaniszewski.quenyatutorial.gui.components;
 
-import pl.piotrjaniszewski.quenyatutorial.gui.views.MainMenu;
+import pl.piotrjaniszewski.quenyatutorial.gui.views.MainMenuView;
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,8 +14,10 @@ public class MyFrame extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        setContentPane(new MainMenu());
-        pack();
+        setContentPane(new MainMenuView());
+        setBackground(Color.white);
+        setMinimumSize(new Dimension(960,540));
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 }
