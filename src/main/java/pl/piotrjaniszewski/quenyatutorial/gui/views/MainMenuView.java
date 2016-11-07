@@ -1,6 +1,5 @@
 package pl.piotrjaniszewski.quenyatutorial.gui.views;
 
-import javafx.application.Application;
 import pl.piotrjaniszewski.quenyatutorial.gui.components.CustomButton;
 
 import javax.swing.*;
