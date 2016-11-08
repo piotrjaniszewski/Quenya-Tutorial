@@ -12,7 +12,6 @@ public class MainMenuView extends JPanel{
     private JLabel titleLabel;
     private CustomButton lessonsButton;
     private CustomButton dictionaryButton;
-    private CustomButton fiszkiButton;
     private CustomButton infoButton;
     private CustomButton exitButton;
 
@@ -25,16 +24,14 @@ public class MainMenuView extends JPanel{
 
     private void createComponents() {
 
-        lessonsButton = createMenuButton(new LessonsView(),"Lekcje");
-        dictionaryButton = createMenuButton(new DictionaryView(),"Słownik");
-        fiszkiButton = createMenuButton(new FiszkiView(),"Fiszki");
-        infoButton = createMenuButton(new InfoView(),"O programie");
+        lessonsButton = createMenuButton("Lekcje");
+        dictionaryButton = createMenuButton("Słownik");
+        infoButton = createMenuButton("O programie");
         exitButton = createExitButton();
         titleLabel = createTitleLabel();
 
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         dictionaryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        fiszkiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         infoButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
@@ -46,7 +43,6 @@ public class MainMenuView extends JPanel{
         jPanel.add(titleLabel);
         jPanel.add(lessonsButton);
         jPanel.add(dictionaryButton);
-        jPanel.add(fiszkiButton);
         jPanel.add(infoButton);
         jPanel.add(exitButton);
 
@@ -62,15 +58,24 @@ public class MainMenuView extends JPanel{
         return jLabel;
     }
 
-    private CustomButton createMenuButton(final JPanel panel,String nazwa){
-        CustomButton customButton = new CustomButton(nazwa);
+    private CustomButton createMenuButton(final String name){
+        CustomButton customButton = new CustomButton(name);
         customButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         customButton.setPreferredSize(new Dimension(300,60));
         customButton.setMaximumSize(new Dimension(300,60));
         customButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame frame =(JFrame) JFrame.getFrames()[0];
-                frame.setContentPane(panel);
+                JPanel jPanel;
+
+                if(name=="Lekcje")
+                    jPanel=new LessonsView();
+                else if (name=="Słownik")
+                    jPanel = new DictionaryView();
+                else
+                    jPanel = new InfoView();
+
+                frame.setContentPane(jPanel);
                 frame.setVisible(true);
             }
         });

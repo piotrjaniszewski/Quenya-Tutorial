@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LessonsView extends JPanel {
+
     public LessonsView() {
         super(new BorderLayout());
         empty();
@@ -24,12 +25,6 @@ public class LessonsView extends JPanel {
         });
         jPanel.add(jButton);
         add(jPanel);
-    }
-
-    private JPanel createLessonButtonsPanel(){
-        JPanel jPanel = new JPanel();
-        
-        return jPanel;
     }
 
 }

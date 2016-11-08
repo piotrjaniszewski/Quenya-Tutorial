@@ -4,60 +4,55 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LessonFromDatabase implements LessonCreator {
+
+public class LessonFromDatabase implements Lesson{
+
+    private int lessonNumber;
+    private List<Exercise> exercises;
+    private List<Chapter> chapters;
 
     private Connection connection;
     private Statement  statement;
     private static final String DB_ADDRESS = "jdbc:sqlite:src/main/resources/mydb.db";
-    private int lessonNumber;
-    private ResultSet chapterTable;
-    private ResultSet exercisesTable;
+
+    public LessonFromDatabase(){}
 
     public LessonFromDatabase(int lessonNumber){
-        this.lessonNumber=lessonNumber;
         connect();
-        chapterTable = getChapterTable();
-        exercisesTable = getExercisesTable();
+        this.lessonNumber=lessonNumber;
+        this.exercises=createExercises();
+        this.chapters=createChapters();
         disconnect();
     }
 
-    public int getNumber() {
+    public int getLessonNumber() {
         return lessonNumber;
     }
-
     public List<Exercise> getExercises() {
-        LinkedList<Exercise> exercises = new LinkedList<Exercise>();
-
-        try {
-            while (exercisesTable.next()) {
-                String type = exercisesTable.getString("type");
-
-                if (type == "quenya-polski" || type == "polski-quenya") {
-                    Exercise exercise = new TranslationExercise(type, exercisesTable.getString("title"), exercisesTable.getString("question"), exercisesTable.getString("answer"), lessonNumber);
-                    exercises.add(exercise);
-                } else {
-
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return exercises;
     }
-
     public List<Chapter> getChapters() {
-        LinkedList<Chapter> chapters = new LinkedList<Chapter>();
-
+        return chapters;
+    }
+    public int getNumberOfLessons() {
+        connect();
+        int max=0;
         try {
-            while (chapterTable.next()) {
-                Chapter chapter = new ChapterImpl(exercisesTable.getInt("ID"), exercisesTable.getString("title"),exercisesTable.getString("content"),exercisesTable.getInt("lessonNr"));
-                chapters.add(chapter);
+            ResultSet resultSet1 = statement.executeQuery("SELECT lessonNr FROM Chapters ORDER BY lessonNr DESC");
+            ResultSet resultSet2 = statement.executeQuery("SELECT lessonNr FROM Chapters ORDER BY lessonNr DESC");
+
+            if(resultSet1.getInt("lessonNr")> resultSet2.getInt("lessonNr")){
+                max=resultSet1.getInt("lessonNr");
+            }
+            else{
+                max=resultSet2.getInt("lessonNr");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return chapters;
+        disconnect();
+        return max;
     }
 
     private void connect(){
@@ -76,22 +71,38 @@ public class LessonFromDatabase implements LessonCreator {
             e.printStackTrace();
         }
     }
-    private ResultSet getChapterTable(){
-        ResultSet resultSet=null;
+    private List<Exercise> createExercises() {
+        LinkedList<Exercise> exercises = new LinkedList<Exercise>();
+
         try {
-            resultSet = statement.executeQuery("SELECT * FROM Chapters WHERE lessonNr="+lessonNumber+"ORDER BY ID");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Exercises WHERE lessonNr="+lessonNumber);
+            while (resultSet.next()) {
+                String type = resultSet.getString("type");
+                if (type == "quenya-polski" || type == "polski-quenya") {
+                    Exercise exercise = new TranslationExercise(type, resultSet.getString("title"), resultSet.getString("question"), resultSet.getString("answer"), lessonNumber);
+                    exercises.add(exercise);
+                } else {
+
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return resultSet;
+        return exercises;
     }
-    private ResultSet getExercisesTable() {
-        ResultSet resultSet = null;
+    private List<Chapter> createChapters() {
+        LinkedList<Chapter> chapters = new LinkedList<Chapter>();
+
         try {
-            resultSet = statement.executeQuery("SELECT * FROM Exercises WHERE lesson="+lessonNumber+"ORDER BY ID");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Chapters WHERE lessonNr="+lessonNumber);
+            while (resultSet.next()) {
+                Chapter chapter = new ChapterImpl(resultSet.getInt("ID"), resultSet.getString("title"), resultSet.getString("content"), resultSet.getInt("lessonNr"));
+                chapters.add(chapter);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return resultSet;
+
+        return chapters;
     }
 }
