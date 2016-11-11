@@ -20,4 +20,8 @@ public class MyFrame extends JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    public static void refreshFrame(){
+        getFrames()[0].setVisible(true);
+    }
 }
