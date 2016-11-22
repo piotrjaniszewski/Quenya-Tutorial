@@ -38,19 +38,25 @@ public class LessonFromDatabase implements Lesson{
         connect();
         int max=0;
         try {
-            ResultSet resultSet1 = statement.executeQuery("SELECT lessonNr FROM Chapters ORDER BY lessonNr DESC");
-            ResultSet resultSet2 = statement.executeQuery("SELECT lessonNr FROM Chapters ORDER BY lessonNr DESC");
-
-            if(resultSet1.getInt("lessonNr")> resultSet2.getInt("lessonNr")){
-                max=resultSet1.getInt("lessonNr");
-            }
-            else{
-                max=resultSet2.getInt("lessonNr");
+            ResultSet resultSet = statement.executeQuery("SELECT lessonNr FROM Chapters ORDER BY lessonNr DESC");
+            max=resultSet.getInt("lessonNr");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return max;
+    }
+    public int getNumberOfExercises() {
+        connect();
+        int max=0;
+        try {
+            if (exercises.size()!=0){
+                ResultSet resultSet1 = statement.executeQuery("SELECT * FROM Exercises WHERE lessonNr="+lessonNumber+" ORDER BY exerciseNr DESC");
+                max=resultSet1.getInt("exerciseNr");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         disconnect();
         return max;
     }
@@ -77,13 +83,8 @@ public class LessonFromDatabase implements Lesson{
         try {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Exercises WHERE lessonNr="+lessonNumber);
             while (resultSet.next()) {
-                String type = resultSet.getString("type");
-                if (type == "quenya-polski" || type == "polski-quenya") {
-                    Exercise exercise = new TranslationExercise(type, resultSet.getString("title"), resultSet.getString("question"), resultSet.getString("answer"), lessonNumber);
-                    exercises.add(exercise);
-                } else {
-
-                }
+                Exercise exercise = new TranslationExercise(resultSet.getString("type"), resultSet.getString("title"), resultSet.getString("question"), resultSet.getString("answer"), lessonNumber, resultSet.getInt("exerciseNr"));
+                exercises.add(exercise);
             }
         } catch (SQLException e) {
             e.printStackTrace();

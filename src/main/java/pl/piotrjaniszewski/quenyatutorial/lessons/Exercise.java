@@ -7,4 +7,5 @@ public interface Exercise {
     public String getQuestion();
     public String getCorrectAnswer();
     public int getLessonNumber();
+    public int exerciseNumber();
 }

@@ -7,4 +7,5 @@ public interface Lesson {
     public List<Exercise> getExercises();
     public List<Chapter> getChapters();
     public int getNumberOfLessons();
+    public int getNumberOfExercises();
 }

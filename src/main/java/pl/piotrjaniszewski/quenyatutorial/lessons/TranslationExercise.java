@@ -8,13 +8,15 @@ public class TranslationExercise implements Exercise {
     private String question;
     private String correctAnswer;
     private int lessonNumber;
+    private int exerciseNumber;
 
-    public TranslationExercise(String type, String title, String question, String correctAnswer, int lessonNumber) {
+    public TranslationExercise(String type, String title, String question, String correctAnswer, int lessonNumber, int exerciseNumber) {
         this.type = type;
         this.title = title;
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.lessonNumber = lessonNumber;
+        this.exerciseNumber = exerciseNumber;
     }
 
     public String getTitle() {
@@ -35,5 +37,9 @@ public class TranslationExercise implements Exercise {
 
     public int getLessonNumber() {
         return lessonNumber;
+    }
+
+    public int exerciseNumber() {
+        return exerciseNumber;
     }
 }

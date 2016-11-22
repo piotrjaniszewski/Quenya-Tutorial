@@ -74,6 +74,18 @@ public class LessonsView extends JPanel {
             });
             chapterButtonList.add(customButton);
         }
+
+        for ( i = 1; i <= lesson.getNumberOfExercises(); i++) {
+            final CustomButton customButton = new CustomButton("Zadanie "+i);
+            customButton.addActionListener(new ActionListener() {
+                private final int exerciseNumber=i;
+                public void actionPerformed(ActionEvent e) {
+                    chapterNumber=0;
+                    createTranslateExerciseView(exerciseNumber);
+                }
+            });
+            chapterButtonList.add(customButton);
+        }
     }
 
     private void createLessonButtonsPanel() {
@@ -121,10 +133,13 @@ public class LessonsView extends JPanel {
         contentPanel.add(jLabel,BorderLayout.PAGE_START);
         contentPanel.add(jScrollPane,BorderLayout.CENTER);
 
-        add(contentPanel,BorderLayout.CENTER);
         MyFrame.refreshFrame();
     }
-    private void createTranslateExerciseView(){
+    private void createTranslateExerciseView(int exerciseNumber) {
+        contentPanel.removeAll();
+        JLabel jLabel = new JLabel("Zadanie" + exerciseNumber);
+        contentPanel.add(jLabel);
+        MyFrame.refreshFrame();
         //TODO wygląd zadania
     }
 }
