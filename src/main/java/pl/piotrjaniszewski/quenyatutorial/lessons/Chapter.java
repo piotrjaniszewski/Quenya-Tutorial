@@ -1,6 +1,5 @@
 package pl.piotrjaniszewski.quenyatutorial.lessons;
 
-
 public interface Chapter {
 
     public int getID();

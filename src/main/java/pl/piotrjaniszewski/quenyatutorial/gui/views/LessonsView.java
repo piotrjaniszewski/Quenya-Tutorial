@@ -22,7 +22,7 @@ public class LessonsView extends JPanel {
     private int chapterNumber=1;
 
     private JPanel lessonButtonsPanel= new JPanel();
-    private JPanel contentPanel= new JPanel();
+    private JPanel contentPanel= new JPanel(new BorderLayout());
     private JPanel chapterButtonsPanel=new JPanel();
 
     public LessonsView() {
@@ -35,31 +35,32 @@ public class LessonsView extends JPanel {
 
     private void createComponents() {
         createLessonButtonsPanel();
-        createContentPanel();
+        createChapterView();
         createChapterButtonsPanel();
     }
 
     private void createLessonButtonsPanel() {
-        lessonButtonsPanel.removeAll();
         lessonButtonsPanel.setLayout(new BoxLayout(lessonButtonsPanel,BoxLayout.PAGE_AXIS));
-
         for (int j = 0; j < lessonButtonList.size(); j++) {
             lessonButtonsPanel.add(lessonButtonList.get(j));
         }
     }
 
-
     private void createChapterButtonsPanel() {
         chapterButtonsPanel.removeAll();
         chapterButtonsPanel.setLayout(new BoxLayout(chapterButtonsPanel,BoxLayout.PAGE_AXIS));
-
+        chapterButtonsPanel.add(new JLabel("Rozdziały"));
         for (int j = 0; j < chapterButtonList.size(); j++) {
             chapterButtonsPanel.add(chapterButtonList.get(j));
         }
+        chapterButtonsPanel.add(new JLabel("Ćwiczenia"));
+
         //TODO dodać przyciski cwiczen
+
         MyFrame.refreshFrame();
 
         chapterButtonsPanel.add(Box.createVerticalGlue());
+
         CustomButton returnButton = new CustomButton("Menu główne");
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -73,18 +74,23 @@ public class LessonsView extends JPanel {
         MyFrame.refreshFrame();
     }
 
-    private void createContentPanel() {
+    private void createChapterView() {
         contentPanel.removeAll();
-        contentPanel.setLayout(new BorderLayout());
 
+        JLabel jLabel = new JLabel("Lekcja "+lesson.getLessonNumber()+": "+lesson.getChapters().get(chapterNumber-1).getTitle());
+        jLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         JTextPane jTextPane = new JTextPane();
-
         jTextPane.setText(lesson.getChapters().get(chapterNumber-1).getContent());
-        contentPanel.add(jTextPane);
+
+        JScrollPane jScrollPane = new JScrollPane(jTextPane);
+        jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        contentPanel.add(jLabel,BorderLayout.PAGE_START);
+        contentPanel.add(jScrollPane,BorderLayout.CENTER);
 
         add(contentPanel,BorderLayout.CENTER);
         MyFrame.refreshFrame();
-
     }
 
     private void layoutComponents() {
@@ -111,12 +117,7 @@ public class LessonsView extends JPanel {
         chapterNumber=1;
         createChapterButtonList();
         createChapterButtonsPanel();
-        createContentPanel();
-
-        MyFrame.refreshFrame();
-        MyFrame.refreshFrame();
-
-        //TODO zmianę widoku przycisków rozdziałow
+        createChapterView();
     }
 
     private void createChapterButtonList() {
@@ -127,16 +128,10 @@ public class LessonsView extends JPanel {
                 private final int k = i;
                 public void actionPerformed(ActionEvent e) {
                     chapterNumber=k;
-                    changeLessonContent();
+                    createChapterView();
                 }
             });
             chapterButtonList.add(customButton);
         }
-    }
-
-    private void changeLessonContent() {
-        //TODO zmianę widoku lekcji
-        createContentPanel();
-        MyFrame.refreshFrame();
     }
 }
