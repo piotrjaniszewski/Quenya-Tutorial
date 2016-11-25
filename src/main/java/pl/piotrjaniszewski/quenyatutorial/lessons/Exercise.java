@@ -1,11 +1,13 @@
 package pl.piotrjaniszewski.quenyatutorial.lessons;
 
+import java.util.List;
+
 public interface Exercise {
 
     public String getTitle();
-    public String getType();
-    public String getQuestion();
-    public String getCorrectAnswer();
-    public int getLessonNumber();
+    public List<String> getQuestions();
+    public List<String> getAnswers();
     public int exerciseNumber();
+    public boolean check(String userAnswer, int number);
+    public void addTask(String question,String answer);
 }

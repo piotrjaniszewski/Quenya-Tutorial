@@ -1,45 +1,49 @@
 package pl.piotrjaniszewski.quenyatutorial.lessons;
 
 
-public class TranslationExercise implements Exercise {
+import java.util.LinkedList;
+import java.util.List;
 
-    private String type;
+public class TranslationExercise implements Exercise {
     private String title;
-    private String question;
-    private String correctAnswer;
-    private int lessonNumber;
+    private List<String> questions;
+    private List<String> answers;
     private int exerciseNumber;
 
-    public TranslationExercise(String type, String title, String question, String correctAnswer, int lessonNumber, int exerciseNumber) {
-        this.type = type;
-        this.title = title;
-        this.question = question;
-        this.correctAnswer = correctAnswer;
-        this.lessonNumber = lessonNumber;
+    public TranslationExercise(int exerciseNumber) {
+        this.questions = new LinkedList<String>();
+        this.answers = new LinkedList<String>();
         this.exerciseNumber = exerciseNumber;
+        if(exerciseNumber==1){
+            title="Przetłumacz na Quenye";
+        } else{
+            title="Przetłumacz na Polski";
+        }
+
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getType() {
-        return type;
+    public List<String> getQuestions() {
+        return questions;
     }
 
-    public String getQuestion() {
-        return question;
-    }
-
-    public String getCorrectAnswer() {
-        return correctAnswer;
-    }
-
-    public int getLessonNumber() {
-        return lessonNumber;
+    public List<String> getAnswers() {
+        return answers;
     }
 
     public int exerciseNumber() {
         return exerciseNumber;
+    }
+
+    public boolean check(String userAnswer, int number) {
+        return false;
+    }
+
+    public void addTask(String question,String answer){
+        questions.add(question);
+        answers.add(answer);
     }
 }

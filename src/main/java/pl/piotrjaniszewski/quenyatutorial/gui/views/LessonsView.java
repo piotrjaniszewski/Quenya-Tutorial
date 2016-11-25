@@ -1,7 +1,9 @@
 package pl.piotrjaniszewski.quenyatutorial.gui.views;
 
+import pl.piotrjaniszewski.quenyatutorial.gui.components.AnswerTextField;
 import pl.piotrjaniszewski.quenyatutorial.gui.components.CustomButton;
 import pl.piotrjaniszewski.quenyatutorial.gui.components.MyFrame;
+import pl.piotrjaniszewski.quenyatutorial.lessons.Exercise;
 import pl.piotrjaniszewski.quenyatutorial.lessons.Lesson;
 import pl.piotrjaniszewski.quenyatutorial.lessons.LessonFromDatabase;
 
@@ -135,11 +137,52 @@ public class LessonsView extends JPanel {
 
         MyFrame.refreshFrame();
     }
+
     private void createTranslateExerciseView(int exerciseNumber) {
+        Exercise exercise = lesson.getExercises().get(exerciseNumber - 1);
+        JPanel exercisePanel = new JPanel();
+        exercisePanel.setLayout(new BoxLayout(exercisePanel, BoxLayout.PAGE_AXIS));
+
+        final LinkedList<AnswerTextField> answerTextFields= new LinkedList<AnswerTextField>();
+
+        for (int j = 0; j < exercise.getQuestions().size(); j++) {
+            AnswerTextField answerTextField = new AnswerTextField(exercise.getAnswers().get(j));
+            answerTextField.setPreferredSize(new Dimension(400, 20));
+            JLabel jLabel = new JLabel(exercise.getQuestions().get(j));
+            jLabel.setMinimumSize(new Dimension(400, 20));
+            //TODO poprawić wizualnie
+
+            exercisePanel.add(jLabel);
+            exercisePanel.add(answerTextField);
+            answerTextFields.add(answerTextField);
+        }
+
+        CustomButton checkButton = new CustomButton("Sprawdź poprawność");
+
+        checkButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int j = 0; j < answerTextFields.size(); j++) {
+                    answerTextFields.get(j).check();
+                }
+            }
+        });
+        exercisePanel.add(checkButton);
+
         contentPanel.removeAll();
-        JLabel jLabel = new JLabel("Zadanie" + exerciseNumber);
-        contentPanel.add(jLabel);
+        JLabel jLabel = new JLabel("Zadanie "+exerciseNumber+": "+exercise.getTitle());
+        jLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+        JPanel jPanel = new JPanel();
+        jPanel.add(exercisePanel);
+        JScrollPane jScrollPane = new JScrollPane(jPanel);
+        jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        contentPanel.add(jLabel,BorderLayout.PAGE_START);
+        contentPanel.add(jScrollPane,BorderLayout.CENTER);
+
         MyFrame.refreshFrame();
+
         //TODO wygląd zadania
     }
 }
