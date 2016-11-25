@@ -19,7 +19,6 @@ public class TranslationExercise implements Exercise {
         } else{
             title="Przetłumacz na Polski";
         }
-
     }
 
     public String getTitle() {
@@ -39,7 +38,7 @@ public class TranslationExercise implements Exercise {
     }
 
     public boolean check(String userAnswer, int number) {
-        return false;
+        return userAnswer.contentEquals(answers.get(number));
     }
 
     public void addTask(String question,String answer){

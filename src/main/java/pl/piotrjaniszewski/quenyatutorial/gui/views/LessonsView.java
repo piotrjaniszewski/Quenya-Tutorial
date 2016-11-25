@@ -102,11 +102,7 @@ public class LessonsView extends JPanel {
         for (int j = 0; j < chapterButtonList.size(); j++) {
             chapterButtonsPanel.add(chapterButtonList.get(j));
         }
-
-        //TODO dodać przyciski cwiczen
-
         MyFrame.refreshFrame();
-
         chapterButtonsPanel.add(Box.createVerticalGlue());
 
         CustomButton returnButton = new CustomButton("Menu główne");
@@ -122,31 +118,19 @@ public class LessonsView extends JPanel {
     }
 
     private void createChapterView() {
-        contentPanel.removeAll();
-        JLabel jLabel = new JLabel("Lekcja "+lesson.getLessonNumber()+": "+lesson.getChapters().get(chapterNumber-1).getTitle());
-        jLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         JTextPane jTextPane = new JTextPane();
         jTextPane.setText(lesson.getChapters().get(chapterNumber-1).getContent());
-
-        JScrollPane jScrollPane = new JScrollPane(jTextPane);
-        jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        contentPanel.add(jLabel,BorderLayout.PAGE_START);
-        contentPanel.add(jScrollPane,BorderLayout.CENTER);
-
-        MyFrame.refreshFrame();
+        createContentView(jTextPane,"Lekcja "+lesson.getLessonNumber()+": "+lesson.getChapters().get(chapterNumber-1).getTitle());
     }
-
     private void createTranslateExerciseView(int exerciseNumber) {
-        Exercise exercise = lesson.getExercises().get(exerciseNumber - 1);
+        final Exercise exercise = lesson.getExercises().get(exerciseNumber - 1);
         JPanel exercisePanel = new JPanel();
         exercisePanel.setLayout(new BoxLayout(exercisePanel, BoxLayout.PAGE_AXIS));
 
         final LinkedList<AnswerTextField> answerTextFields= new LinkedList<AnswerTextField>();
 
         for (int j = 0; j < exercise.getQuestions().size(); j++) {
-            AnswerTextField answerTextField = new AnswerTextField(exercise.getAnswers().get(j));
+            AnswerTextField answerTextField = new AnswerTextField();
             answerTextField.setPreferredSize(new Dimension(400, 20));
             JLabel jLabel = new JLabel(exercise.getQuestions().get(j));
             jLabel.setMinimumSize(new Dimension(400, 20));
@@ -158,31 +142,31 @@ public class LessonsView extends JPanel {
         }
 
         CustomButton checkButton = new CustomButton("Sprawdź poprawność");
-
         checkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 for (int j = 0; j < answerTextFields.size(); j++) {
-                    answerTextFields.get(j).check();
+                    answerTextFields.get(j).setCorrect(exercise.check(answerTextFields.get(j).getText(),j));
                 }
             }
         });
         exercisePanel.add(checkButton);
 
-        contentPanel.removeAll();
-        JLabel jLabel = new JLabel("Zadanie "+exerciseNumber+": "+exercise.getTitle());
-        jLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
         JPanel jPanel = new JPanel();
         jPanel.add(exercisePanel);
-        JScrollPane jScrollPane = new JScrollPane(jPanel);
+        createContentView(jPanel,"Zadanie "+exerciseNumber+": "+exercise.getTitle());
+    }
+    private void createContentView(Component view, String title){
+        JScrollPane jScrollPane = new JScrollPane(view);
         jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
+        JLabel jLabel = new JLabel(title);
+        jLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+        contentPanel.removeAll();
         contentPanel.add(jLabel,BorderLayout.PAGE_START);
         contentPanel.add(jScrollPane,BorderLayout.CENTER);
 
         MyFrame.refreshFrame();
-
-        //TODO wygląd zadania
     }
 }

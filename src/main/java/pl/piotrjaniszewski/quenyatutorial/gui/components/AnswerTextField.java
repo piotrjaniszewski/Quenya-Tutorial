@@ -6,11 +6,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 public class AnswerTextField extends JTextField {
-    private String correctAnswer;
 
-    public AnswerTextField(String correctAnswer) {
+    public AnswerTextField() {
         super();
-        this.correctAnswer=correctAnswer;
         addListeners();
     }
 
@@ -19,21 +17,17 @@ public class AnswerTextField extends JTextField {
             public void focusGained(FocusEvent e) {
                 setForeground(Color.black);
             }
-
             public void focusLost(FocusEvent e) {
                 setForeground(Color.black);
             }
         });
     }
 
-    public boolean check(){
-        if (this.getText().contentEquals(correctAnswer)){
-            setForeground(Color.GREEN);
-            return true;
-        }
-        else{
-            setForeground(Color.RED);
-            return false;
+    public void setCorrect(boolean check) {
+        if(check){
+            setForeground(Color.green);
+        }else{
+            setForeground(Color.red);
         }
     }
 }
