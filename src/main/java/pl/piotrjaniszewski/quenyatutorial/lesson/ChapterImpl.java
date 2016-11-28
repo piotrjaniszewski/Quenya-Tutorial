@@ -1,4 +1,4 @@
-package pl.piotrjaniszewski.quenyatutorial.lessons;
+package pl.piotrjaniszewski.quenyatutorial.lesson;
 
 
 public class ChapterImpl implements Chapter {

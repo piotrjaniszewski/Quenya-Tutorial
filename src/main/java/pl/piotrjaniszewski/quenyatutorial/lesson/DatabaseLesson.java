@@ -1,11 +1,10 @@
-package pl.piotrjaniszewski.quenyatutorial.lessons;
+package pl.piotrjaniszewski.quenyatutorial.lesson;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-
-public class LessonFromDatabase implements Lesson{
+public class DatabaseLesson implements Lesson{
 
     private int lessonNumber;
     private List<Exercise> exercises;
@@ -15,9 +14,9 @@ public class LessonFromDatabase implements Lesson{
     private Statement  statement;
     private static final String DB_ADDRESS = "jdbc:sqlite:src/main/resources/mydb.db";
 
-    public LessonFromDatabase(){}
+    public DatabaseLesson(){}
 
-    public LessonFromDatabase(int lessonNumber){
+    public DatabaseLesson(int lessonNumber){
         connect();
         this.lessonNumber=lessonNumber;
         this.exercises=createExercises();

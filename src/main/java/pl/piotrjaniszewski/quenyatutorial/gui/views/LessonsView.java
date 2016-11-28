@@ -3,9 +3,9 @@ package pl.piotrjaniszewski.quenyatutorial.gui.views;
 import pl.piotrjaniszewski.quenyatutorial.gui.components.AnswerTextField;
 import pl.piotrjaniszewski.quenyatutorial.gui.components.CustomButton;
 import pl.piotrjaniszewski.quenyatutorial.gui.components.MyFrame;
-import pl.piotrjaniszewski.quenyatutorial.lessons.Exercise;
-import pl.piotrjaniszewski.quenyatutorial.lessons.Lesson;
-import pl.piotrjaniszewski.quenyatutorial.lessons.LessonFromDatabase;
+import pl.piotrjaniszewski.quenyatutorial.lesson.Exercise;
+import pl.piotrjaniszewski.quenyatutorial.lesson.Lesson;
+import pl.piotrjaniszewski.quenyatutorial.lesson.DatabaseLesson;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +29,7 @@ public class LessonsView extends JPanel {
 
     public LessonsView() {
         super(new BorderLayout());
-        lesson = new LessonFromDatabase(1);
+        lesson = new DatabaseLesson(1);
         createLessonButtonList();
         createChapterButtonList();
         createComponents();
@@ -48,12 +48,12 @@ public class LessonsView extends JPanel {
     }
 
     private void createLessonButtonList(){
-        for (i = 1; i <= new LessonFromDatabase().getNumberOfLessons(); i++) {
+        for (i = 1; i <= new DatabaseLesson().getNumberOfLessons(); i++) {
             CustomButton customButton = new CustomButton("Lekcja "+i);
             customButton.addActionListener(new ActionListener() {
                 private int lessonNumber=i;
                 public void actionPerformed(ActionEvent e) {
-                    lesson = new LessonFromDatabase(lessonNumber);
+                    lesson = new DatabaseLesson(lessonNumber);
                     chapterNumber=1;
                     createChapterButtonList();
                     createChapterButtonsPanel();

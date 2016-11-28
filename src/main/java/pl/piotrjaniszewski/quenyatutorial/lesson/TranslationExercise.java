@@ -1,4 +1,4 @@
-package pl.piotrjaniszewski.quenyatutorial.lessons;
+package pl.piotrjaniszewski.quenyatutorial.lesson;
 
 
 import java.util.LinkedList;
