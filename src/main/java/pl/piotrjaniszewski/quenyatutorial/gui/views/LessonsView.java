@@ -50,6 +50,7 @@ public class LessonsView extends JPanel {
     private void createLessonButtonList(){
         for (i = 1; i <= new DatabaseLesson().getNumberOfLessons(); i++) {
             CustomButton customButton = new CustomButton("Lekcja "+i);
+            customButton.setAllSizes(new Dimension(80,20));
             customButton.addActionListener(new ActionListener() {
                 private int lessonNumber=i;
                 public void actionPerformed(ActionEvent e) {
@@ -67,6 +68,7 @@ public class LessonsView extends JPanel {
         chapterButtonList.clear();
         for (i = 1; i <= lesson.getChapters().size(); i++) {
             final CustomButton customButton = new CustomButton("Rozdział "+i);
+            customButton.setAllSizes(new Dimension(80,20));
             customButton.addActionListener(new ActionListener() {
                 private final int k = i;
                 public void actionPerformed(ActionEvent e) {
@@ -79,6 +81,7 @@ public class LessonsView extends JPanel {
 
         for ( i = 1; i <= lesson.getNumberOfExercises(); i++) {
             final CustomButton customButton = new CustomButton("Zadanie "+i);
+            customButton.setAllSizes(new Dimension(80,20));
             customButton.addActionListener(new ActionListener() {
                 private final int exerciseNumber=i;
                 public void actionPerformed(ActionEvent e) {
@@ -106,6 +109,7 @@ public class LessonsView extends JPanel {
         chapterButtonsPanel.add(Box.createVerticalGlue());
 
         CustomButton returnButton = new CustomButton("Menu główne");
+        returnButton.setAllSizes(new Dimension(80,20));
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame frame =(JFrame) JFrame.getFrames()[0];
@@ -120,6 +124,8 @@ public class LessonsView extends JPanel {
     private void createChapterView() {
         JTextPane jTextPane = new JTextPane();
         jTextPane.setText(lesson.getChapters().get(chapterNumber-1).getContent());
+        jTextPane.setEnabled(false);
+        //TODO poprawic czcionke
         createContentView(jTextPane,"Lekcja "+lesson.getLessonNumber()+": "+lesson.getChapters().get(chapterNumber-1).getTitle());
     }
     private void createTranslateExerciseView(int exerciseNumber) {

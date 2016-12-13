@@ -8,23 +8,14 @@ public class DatabaseDictionary implements Dictionary{
     private Statement statement;
     private static final String DB_ADDRESS = "jdbc:sqlite:src/main/resources/mydb.db";
 
-    public DatabaseDictionary() {
-
-    }
-
-    public static void main(String[] args) {
-        DatabaseDictionary dbd = new DatabaseDictionary();
-
-        System.out.println(dbd.translateToQuenya("dwa"));
-    }
-
     public String translateToQuenya(String word) {
         connect();
         try {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Dictionary WHERE polski='"+word+"'");
             if(resultSet.next()){
+                String answer=resultSet.getString("quenya");
                 disconnect();
-                return resultSet.getString("quenya");
+                return answer;
             }
             else {
                 disconnect();
@@ -41,8 +32,9 @@ public class DatabaseDictionary implements Dictionary{
         try {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Dictionary WHERE quenya='"+word+"'");
             if(resultSet.next()){
+                String answer = resultSet.getString("polski");
                 disconnect();
-                return resultSet.getString("polski");
+                return answer;
             }
             else {
                 disconnect();
