@@ -105,7 +105,6 @@ public class LessonsView extends JPanel {
         for (int j = 0; j < chapterButtonList.size(); j++) {
             chapterButtonsPanel.add(chapterButtonList.get(j));
         }
-        MyFrame.refreshFrame();
         chapterButtonsPanel.add(Box.createVerticalGlue());
 
         CustomButton returnButton = new CustomButton("Menu główne");
@@ -118,13 +117,14 @@ public class LessonsView extends JPanel {
             }
         });
         chapterButtonsPanel.add(returnButton);
-        MyFrame.refreshFrame();
+        SwingUtilities.updateComponentTreeUI(chapterButtonsPanel);
     }
 
     private void createChapterView() {
         JTextPane jTextPane = new JTextPane();
         jTextPane.setText(lesson.getChapters().get(chapterNumber-1).getContent());
-        jTextPane.setEnabled(false);
+        jTextPane.setEditable(false);
+        jTextPane.setCaretPosition(0);
         //TODO poprawic czcionke
         createContentView(jTextPane,"Lekcja "+lesson.getLessonNumber()+": "+lesson.getChapters().get(chapterNumber-1).getTitle());
     }

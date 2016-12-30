@@ -83,20 +83,17 @@ public class DatabaseLesson implements Lesson{
         LinkedList<Exercise> exercises = new LinkedList<Exercise>();
 
         try {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM Exercises WHERE lessonNr="+lessonNumber);
-            Exercise exercise1 = new TranslationExercise(1);
-            Exercise exercise2 = new TranslationExercise(2);
-
-            while (resultSet.next()){
-                if (resultSet.getInt("exerciseNr")==1){
-                    exercise1.addTask(resultSet.getString("question"),resultSet.getString("answer"));
-                }else if(resultSet.getInt("exerciseNr")==2){
-                    exercise2.addTask(resultSet.getString("question"),resultSet.getString("answer"));
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Exercises WHERE lessonNr="+lessonNumber+" ORDER BY exerciseNr DESC");
+            int numerOfExercises=resultSet.getInt("exerciseNr");
+            for (int i = 1; i <= numerOfExercises; i++) {
+                resultSet = statement.executeQuery("SELECT * FROM Exercises WHERE lessonNr="+lessonNumber+" AND exerciseNr="+i+" ORDER BY ID ASC");
+                Exercise exercise = new TranslationExercise(i,resultSet.getString("task"));
+                while (resultSet.next()) {
+                    exercise.addTask(resultSet.getString("question"), resultSet.getString("answer"));
                 }
+                exercises.add(exercise);
             }
 
-            if (exercise1.getQuestions().size()!=0) exercises.add(exercise1);
-            if (exercise2.getQuestions().size()!=0) exercises.add(exercise2);
         } catch (SQLException e) {
             e.printStackTrace();
         }

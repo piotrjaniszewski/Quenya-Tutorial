@@ -10,15 +10,11 @@ public class TranslationExercise implements Exercise {
     private List<String> answers;
     private int exerciseNumber;
 
-    public TranslationExercise(int exerciseNumber) {
+    public TranslationExercise(int exerciseNumber, String title) {
         this.questions = new LinkedList<String>();
         this.answers = new LinkedList<String>();
         this.exerciseNumber = exerciseNumber;
-        if(exerciseNumber==1){
-            title="Przetłumacz na Quenye";
-        } else{
-            title="Przetłumacz na Polski";
-        }
+        this.title = title;
     }
 
     public String getTitle() {
