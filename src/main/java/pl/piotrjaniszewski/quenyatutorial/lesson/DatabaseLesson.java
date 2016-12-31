@@ -87,7 +87,7 @@ public class DatabaseLesson implements Lesson{
             int numerOfExercises=resultSet.getInt("exerciseNr");
             for (int i = 1; i <= numerOfExercises; i++) {
                 resultSet = statement.executeQuery("SELECT * FROM Exercises WHERE lessonNr="+lessonNumber+" AND exerciseNr="+i+" ORDER BY ID ASC");
-                Exercise exercise = new TranslationExercise(i,resultSet.getString("task"));
+                Exercise exercise = new TranslationExercise(i,resultSet.getString("title"));
                 while (resultSet.next()) {
                     exercise.addTask(resultSet.getString("question"), resultSet.getString("answer"));
                 }

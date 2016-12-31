@@ -128,6 +128,7 @@ public class LessonsView extends JPanel {
         //TODO poprawic czcionke
         createContentView(jTextPane,"Lekcja "+lesson.getLessonNumber()+": "+lesson.getChapters().get(chapterNumber-1).getTitle());
     }
+
     private void createTranslateExerciseView(int exerciseNumber) {
         final Exercise exercise = lesson.getExercises().get(exerciseNumber - 1);
         JPanel exercisePanel = new JPanel();
@@ -166,11 +167,13 @@ public class LessonsView extends JPanel {
         jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        JLabel jLabel = new JLabel(title);
-        jLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        JTextPane jTextPane = new JTextPane();
+        jTextPane.setText(title);
+        jTextPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        jTextPane.setEditable(false);
 
         contentPanel.removeAll();
-        contentPanel.add(jLabel,BorderLayout.PAGE_START);
+        contentPanel.add(jTextPane,BorderLayout.PAGE_START);
         contentPanel.add(jScrollPane,BorderLayout.CENTER);
 
         MyFrame.refreshFrame();
