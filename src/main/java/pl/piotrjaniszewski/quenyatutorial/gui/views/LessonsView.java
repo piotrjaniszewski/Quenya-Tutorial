@@ -49,7 +49,7 @@ public class LessonsView extends JPanel {
 
     private void createLessonButtonList(){
         for (i = 1; i <= new DatabaseLesson().getNumberOfLessons(); i++) {
-            CustomButton customButton = new CustomButton("Lekcja "+i);
+            final CustomButton customButton = new CustomButton("Lekcja "+i);
             customButton.setAllSizes(new Dimension(80,20));
             customButton.addActionListener(new ActionListener() {
                 private int lessonNumber=i;
@@ -59,10 +59,15 @@ public class LessonsView extends JPanel {
                     createChapterButtonList();
                     createChapterButtonsPanel();
                     createChapterView();
+                    for (int j = 0; j < lessonButtonList.size(); j++) {
+                        lessonButtonList.get(j).setSelected(false);
+                    }
+                    lessonButtonList.get(lessonNumber-1).setSelected(true);
                 }
             });
             lessonButtonList.add(customButton);
         }
+        lessonButtonList.get(0).setSelected(true);
     }
     private void createChapterButtonList() {
         chapterButtonList.clear();
@@ -74,6 +79,10 @@ public class LessonsView extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     chapterNumber=k;
                     createChapterView();
+                    for (int j = 0; j < chapterButtonList.size(); j++) {
+                        chapterButtonList.get(j).setSelected(false);
+                    }
+                    chapterButtonList.get(chapterNumber-1).setSelected(true);
                 }
             });
             chapterButtonList.add(customButton);
@@ -87,10 +96,16 @@ public class LessonsView extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     chapterNumber=0;
                     createTranslateExerciseView(exerciseNumber);
+
+                    for (int j = 0; j < chapterButtonList.size(); j++) {
+                        chapterButtonList.get(j).setSelected(false);
+                    }
+                    chapterButtonList.get(lesson.getChapters().size() + exerciseNumber-1).setSelected(true);
                 }
             });
             chapterButtonList.add(customButton);
         }
+        chapterButtonList.get(0).setSelected(true);
     }
 
     private void createLessonButtonsPanel() {
@@ -125,7 +140,6 @@ public class LessonsView extends JPanel {
         jTextPane.setText(lesson.getChapters().get(chapterNumber-1).getContent());
         jTextPane.setEditable(false);
         jTextPane.setCaretPosition(0);
-        //TODO poprawic czcionke
         createContentView(jTextPane,"Lekcja "+lesson.getLessonNumber()+": "+lesson.getChapters().get(chapterNumber-1).getTitle());
     }
 
@@ -141,7 +155,6 @@ public class LessonsView extends JPanel {
             answerTextField.setPreferredSize(new Dimension(400, 20));
             JLabel jLabel = new JLabel(exercise.getQuestions().get(j));
             jLabel.setMinimumSize(new Dimension(400, 20));
-            //TODO poprawić wizualnie
 
             exercisePanel.add(jLabel);
             exercisePanel.add(answerTextField);
@@ -170,8 +183,9 @@ public class LessonsView extends JPanel {
         JTextPane jTextPane = new JTextPane();
         jTextPane.setText(title);
         jTextPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        jTextPane.setFont(new Font(jTextPane.getFont().getName(),Font.BOLD, (int) (jTextPane.getFont().getSize()*1.1)));
         jTextPane.setEditable(false);
-
+        jScrollPane.setBorder(null);
         contentPanel.removeAll();
         contentPanel.add(jTextPane,BorderLayout.PAGE_START);
         contentPanel.add(jScrollPane,BorderLayout.CENTER);

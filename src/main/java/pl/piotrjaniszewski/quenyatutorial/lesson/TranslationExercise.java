@@ -34,7 +34,7 @@ public class TranslationExercise implements Exercise {
     }
 
     public boolean check(String userAnswer, int number) {
-        return userAnswer.contentEquals(answers.get(number));
+        return userAnswer.toLowerCase().contentEquals(answers.get(number).toLowerCase());
     }
 
     public void addTask(String question,String answer){

@@ -46,8 +46,7 @@ public class DictionaryView extends JPanel {
 
         answerField = new JTextField();
         answerField.setPreferredSize(new Dimension(200,30));
-        answerField.setEnabled(false);
-
+        answerField.setEditable(false);
 
         translateButton = new CustomButton("Tłumacz");
         translateButton.setPreferredSize(new Dimension(300,30));
