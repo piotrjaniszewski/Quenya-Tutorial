@@ -30,4 +30,7 @@ public class AnswerTextField extends JTextField {
             setForeground(Color.red);
         }
     }
+    public void resetCorrect(){
+        setForeground(Color.black);
+    }
 }

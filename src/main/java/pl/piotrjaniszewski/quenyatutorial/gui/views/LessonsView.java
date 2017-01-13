@@ -159,17 +159,32 @@ public class LessonsView extends JPanel {
             exercisePanel.add(jLabel);
             exercisePanel.add(answerTextField);
             answerTextFields.add(answerTextField);
+            exercisePanel.add(Box.createRigidArea(new Dimension(10,10)));
         }
-
         CustomButton checkButton = new CustomButton("Sprawdź poprawność");
         checkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 for (int j = 0; j < answerTextFields.size(); j++) {
                     answerTextFields.get(j).setCorrect(exercise.check(answerTextFields.get(j).getText(),j));
+                    MyFrame.refreshFrame();
                 }
             }
         });
+
+        CustomButton correctAnswersButton = new CustomButton("Pokaż poprawne odpowiedzi");
+        correctAnswersButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int j = 0; j < answerTextFields.size(); j++) {
+                    answerTextFields.get(j).setText(exercise.getAnswers().get(j));
+                    answerTextFields.get(j).resetCorrect();
+                    MyFrame.refreshFrame();
+                }
+            }
+        });
+        exercisePanel.add(Box.createRigidArea(new Dimension(10,10)));
         exercisePanel.add(checkButton);
+        exercisePanel.add(Box.createRigidArea(new Dimension(10,10)));
+        exercisePanel.add(correctAnswersButton);
 
         JPanel jPanel = new JPanel();
         jPanel.add(exercisePanel);
