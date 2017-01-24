@@ -12,8 +12,8 @@ public class DatabaseLesson implements Lesson{
 
     private Connection connection;
     private Statement  statement;
-    private static final String DB_ADDRESS = "jdbc:sqlite:src/main/resources/mydb.db";
-//    private static final String DB_ADDRESS ="jdbc:sqlite::resource:mydb.db";
+//    private static final String DB_ADDRESS = "jdbc:sqlite:src/main/resources/mydb.db";
+    private static final String DB_ADDRESS ="jdbc:sqlite::resource:mydb.db";
 
     public DatabaseLesson(){}
 
